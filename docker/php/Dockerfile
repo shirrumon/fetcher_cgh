@@ -1,6 +1,6 @@
 FROM php:8.1-fpm
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends \
         git \
         zlib1g-dev \
         libxml2-dev \
@@ -23,9 +23,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         intl \
         exif \
     && docker-php-ext-enable intl \
-    && wget https://phar.phpunit.de/phpunit-7.4.phar \
-    && chmod +x phpunit-7.4.phar \
-    && mv phpunit-7.4.phar /usr/local/bin/phpunit
+    && wget https://phar.phpunit.de/phpunit-9.phar \
+    && chmod +x phpunit-9.phar \
+    && mv phpunit-9.phar /usr/local/bin/phpunit
 
 #install gd
 RUN apt-get update && apt-get install -y \
