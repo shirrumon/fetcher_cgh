@@ -20,6 +20,7 @@ Check for code for issues:
 
 Check for PSR-2 code standart:
 - run from root of catalog `app/vendor/bin/phpcs app/src --standard=PSR2 --ignore=app/src/DataFixtures/*,app/src/Migrations/*`
+- for automatic fix run `app/vendor/bin/phpcbf app/src --standard=PSR2 --ignore=app/src/DataFixtures/*,app/src/Migrations/*`
 
 Run PHPUnit:
 - run from root `app/vendor/bin/phpunit --coverage-text --colors=never app/tests`
