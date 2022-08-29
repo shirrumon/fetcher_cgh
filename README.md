@@ -10,6 +10,7 @@ Which versions is used:
 
 How to use it:
 - Clone this repository
+- From app start `composer install`
 - From repository start a command `docker-compose up -d --build`
 - Open `localhost:8080`
 
