@@ -10,5 +10,15 @@ Which versions is used:
 
 How to use it:
 - Clone this repository
-- From repository start a command docker-compose up -d --build
-- Open localhost:8080
+- From repository start a command `docker-compose up -d --build`
+- Open `localhost:8080`
+
+Tools of this repository:
+Check for code for issues:
+- run from root of catalog `app/vendor/bin/phpstan analyse app/src --autoload-file=app/vendor/autoload.php`
+
+Check for PSR-2 code standart:
+- run from root of catalog `app/vendor/bin/phpcs app/src --standard=PSR2 --ignore=app/src/DataFixtures/*,app/src/Migrations/*`
+
+Run PHPUnit:
+- run from root `app/vendor/bin/phpunit --coverage-text --colors=never app/tests`
