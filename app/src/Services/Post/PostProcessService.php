@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\Post;
 
-use App\Entity\AuthorEntity;
-use App\Entity\PostEntity;
 use App\Mappers\Entity\Author\AuthorModelToEntityMapper;
 use App\Mappers\Entity\Post\PostModelToEntityMapper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,15 +21,19 @@ final class PostProcessService
     {
         $usersArr = $this->compareUsersByPosts($postsArr, $usersArr);
 
-        $userEntities = $this->authorToEntitiesArr($usersArr);
-        $postEntities = $this->postToEntitiesArr($postsArr);
+        foreach ($usersArr as $userModel) {
+            $authorEntity = $this->authorModelToEntityMapper->map($userModel);
+            $this->em->persist($authorEntity);
+            foreach ($postsArr as $postModel) {
+                if($userModel->getId() === $postModel->getUserId()) {
+                    $postEntity = $this->postModelToEntityMapper->map($postModel);
+                    $postEntity->setAuthor($authorEntity);
 
-        foreach ($userEntities as $entity) {
-            $this->saveEntity($entity);
-        }
+                    $this->em->persist($postEntity);
+                }
+            }
 
-        foreach ($postEntities as $entity) {
-            $this->saveEntity($entity);
+            $this->em->flush();
         }
     }
 
@@ -46,32 +48,27 @@ final class PostProcessService
             }
         }
 
-        return $compareUsers;
+        return $this->myArrayUnique($compareUsers);
     }
 
-    private function authorToEntitiesArr(array $authors): array
+    private function myArrayUnique(array $array): array
     {
-        $authorsEntities = [];
-        foreach ($authors as $author) {
-            $authorsEntities[] = $this->authorModelToEntityMapper->map($author);
+        $duplicateKeys = array();
+        $tmp = array();
+
+        foreach ($array as $key => $val){
+            if (is_object($val))
+                $val = (array)$val;
+
+            if (!in_array($val, $tmp))
+                $tmp[] = $val;
+            else
+                $duplicateKeys[] = $key;
         }
 
-        return $authorsEntities;
-    }
+        foreach ($duplicateKeys as $key)
+            unset($array[$key]);
 
-    private function postToEntitiesArr(array $posts): array
-    {
-        $postsEntities = [];
-        foreach ($posts as $post) {
-            $postsEntities[] = $this->postModelToEntityMapper->map($post);
-        }
-
-        return $postsEntities;
-    }
-
-    private function saveEntity(PostEntity|AuthorEntity $entity): void
-    {
-        $this->em->persist($entity);
-        $this->em->flush();
+        return false ? $array : array_values($array);
     }
 }
