@@ -17,7 +17,7 @@ class PostController extends AbstractController
     ) {
     }
 
-    #[Route('/list', name: 'app_post_list')]
+    #[Route('/list', name: 'app_post_list', methods: ["GET"])]
     public function getPosts(): Response
     {
         return $this->render('post/index.html.twig', [
@@ -25,7 +25,7 @@ class PostController extends AbstractController
         ]);
     }
 
-    #[Route('/delete-post/{post}', name: 'app_post_delete')]
+    #[Route('/delete-post/{post}', name: 'app_post_delete', methods: ["GET"])]
     public function deletePost(PostEntity $post): Response
     {
         $this->postEntityRepository->remove($post, true);
@@ -33,7 +33,7 @@ class PostController extends AbstractController
         return $this->redirectToRoute('app_post_list');
     }
 
-    #[Route('/delete-all-posts', name: 'app_posts_delete_all')]
+    #[Route('/delete-all-posts', name: 'app_posts_delete_all', methods: ["GET"])]
     public function deleteAllPosts(): Response
     {
         $this->postEntityRepository->deleteAllPosts();

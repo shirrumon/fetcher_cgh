@@ -1,20 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
+{% block title %}Mainpage{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/virgil/Documents/projects/recrut/cogitech/docker_snpm/app/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/virgil/Documents/projects/recrut/cogitech/docker_snpm/app/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div style="
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    margin-top: 10%">
+        {% if app.user %}
+            <div class="column justify-content-center align-items-center">
+                <h5>Hello.</h5>
+                <br>
+                <div>
+                    <a class="btn btn-primary" href="{{ url("app_post_list") }}">List of posts</a>
+                    <a class="btn btn-success" href="{{ url("app_post_api") }}">Post API</a>
+                </div>
+            </div>
+        {% else %}
+            <h5 style="margin-right: 5px">You are a guest. Please </h5>
+            <br>
+            <div>
+                <a class="btn btn-sm btn-outline-secondary" href="{{ url("app_login") }}">Sign in</a>
+                <i> or </i>
+                <a class="btn btn-sm btn-outline-success" href="{{ url("app_register") }}">Register</a>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
