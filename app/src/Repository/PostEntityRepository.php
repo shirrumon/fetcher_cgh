@@ -39,28 +39,11 @@ class PostEntityRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return PostEntity[] Returns an array of PostEntity objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?PostEntity
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function deleteAllPosts(): void
+    {
+        $this->createQueryBuilder('p')
+            ->delete()
+            ->getQuery()
+            ->execute();
+    }
 }

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List of posts{% endblock %}
+
+{% block body %}
+    {% if allPosts is not empty %}
+        <a href="{{ url("app_posts_delete_all") }}">Delete all posts</a>
+        <br>
+        {% for post in allPosts %}
+            <div>
+                <h3>Post id: {{ post.id }}</h3>
+                <i>{{ post.title }}</i>
+                <p>{{ post.body }}</p>
+                <br>
+                <h5>Author: {{ post.author.name }}</h5>
+            </div>
+            <a href="{{ url("app_post_delete", {post: post.id}) }}">Delete post</a>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <h3>Have no posts here. Please, use CLI to fetch posts from API.</h3>
+    {% endif %}
+{% endblock %}

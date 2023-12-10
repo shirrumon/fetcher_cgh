@@ -7,10 +7,11 @@ namespace App\Entity;
 use App\Repository\PostEntityRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: PostEntityRepository::class)]
 #[ORM\Table(name: '`posts`')]
-class PostEntity
+class PostEntity implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -72,5 +73,19 @@ class PostEntity
     public function setAuthor(AuthorEntity $author): void
     {
         $this->author = $author;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            "id" => $this->getId(),
+            "userId" => $this->getUserId(),
+            "title" => $this->getTitle(),
+            "body" => $this->getBody(),
+            "author" => [
+                "id" => $this->getAuthor()->getId(),
+                "name" => $this->getAuthor()->getName(),
+            ],
+        ];
     }
 }
