@@ -25,7 +25,7 @@ final class PostProcessService
             $authorEntity = $this->authorModelToEntityMapper->map($userModel);
             $this->em->persist($authorEntity);
             foreach ($postsArr as $postModel) {
-                if($userModel->getId() === $postModel->getUserId()) {
+                if ($userModel->getId() === $postModel->getUserId()) {
                     $postEntity = $this->postModelToEntityMapper->map($postModel);
                     $postEntity->setAuthor($authorEntity);
 
@@ -56,18 +56,21 @@ final class PostProcessService
         $duplicateKeys = array();
         $tmp = array();
 
-        foreach ($array as $key => $val){
-            if (is_object($val))
+        foreach ($array as $key => $val) {
+            if (is_object($val)) {
                 $val = (array)$val;
+            }
 
-            if (!in_array($val, $tmp))
+            if (!in_array($val, $tmp)) {
                 $tmp[] = $val;
-            else
+            } else {
                 $duplicateKeys[] = $key;
+            }
         }
 
-        foreach ($duplicateKeys as $key)
+        foreach ($duplicateKeys as $key) {
             unset($array[$key]);
+        }
 
         return false ? $array : array_values($array);
     }

@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Controller;
+declare(strict_types=1);
+
+namespace App\Controller\Api;
 
 use App\Repository\PostEntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

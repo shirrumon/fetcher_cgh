@@ -7,7 +7,6 @@ namespace App\Command;
 use App\ApiProvider\Post\PostsApiProvider;
 use App\ApiProvider\User\UserApiProvider;
 use App\Services\Post\PostProcessService;
-use mysql_xdevapi\Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,27 +32,28 @@ class FetchUsersAndPostsToDb extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('This command fetch posts and related users from https://jsonplaceholder.typicode.com/');
+            ->setDescription('This command fetch posts and related
+             users from https://jsonplaceholder.typicode.com/');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        // ... put here the code to create the user
-
         try {
             $authors = $this->userApiProvider->getAuthorsAsModels();
             $posts = $this->postsApiProvider->getPostsAsModels();
 
             $this->postProcessService->process($posts, $authors);
 
-            return Command::SUCCESS;
+            $output->writeln([
+                "Successfully fetched!",
+            ]);
 
-            //        foreach ($test as $item) {
-//            $output->writeln([
-//                $item->getUsername()
-//            ]);
-//        }
-        } catch (ClientExceptionInterface|TransportExceptionInterface|DecodingExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
+            return Command::SUCCESS;
+        } catch (ClientExceptionInterface|
+        TransportExceptionInterface|
+        DecodingExceptionInterface|
+        RedirectionExceptionInterface|
+        ServerExceptionInterface $e) {
             return Command::FAILURE;
         }
     }
